@@ -64,7 +64,7 @@ class AuthController extends Controller
             $token = JWTAuth::claims(['role' => $user->role])->fromUser($user);
 
             $cookie = cookie(
-                'accessToken',      // Nom du cookie
+                'token',      // Nom du cookie
                 $token,           // Valeur du cookie (le token JWT)
                 60,               // Durée en minutes
                 '/',              // Chemin
@@ -72,7 +72,7 @@ class AuthController extends Controller
                 true,             // Secure (HTTPS uniquement)
                 true,             // HTTP-only
                 false,            // SameSite=None
-                'Strict'          // Politique SameSite
+                'None'          // Politique SameSite
             );
 
             return response()->json(compact('token'))->cookie($cookie);
