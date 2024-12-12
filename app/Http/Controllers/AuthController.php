@@ -47,7 +47,7 @@ class AuthController extends Controller
             'Strict'          // Politique SameSite
         );
 
-        return response()->json(compact('user','token'), 201)->cookie($cookie);
+        return response()->json(compact('user'), 201)->cookie($cookie);
     }
 
     // User login
@@ -78,7 +78,7 @@ class AuthController extends Controller
                 'None'          // Politique SameSite
             );
 
-            return response()->json(compact('token'))->cookie($cookie);
+            return response()->json(compact('user'))->cookie($cookie);
         } catch (JWTException $e) {
             return response()->json(['error' => 'Could not create token'], 500);
         }
