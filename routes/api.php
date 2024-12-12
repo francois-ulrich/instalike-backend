@@ -9,13 +9,18 @@ Route::prefix('auth')->group(function ($router) {
     Route::post('login', [AuthController::class, 'login']);
 
     Route::middleware([JwtMiddleware::class])->group(function () {
+        Route::get('/hello', function () { return 'Hello World'; });
+
+        // Auth
         Route::get('user', [AuthController::class, 'getUser']);
         Route::post('logout', [AuthController::class, 'logout']);
     });
 });
 
-Route::group(['middleware' => 'api'], function ($router) {
-    Route::get('/hello', function () {
-        return 'Hello World !!';
-    });
+Route::group([JwtMiddleware::class], function ($router) {
+    Route::get('/hello', function () { return 'Hello World !!'; });
+
+    // User
+        Route::get('user', [AuthController::class, 'getUser']);
+        Route::put('logout', [AuthController::class, 'logout']);
 });
