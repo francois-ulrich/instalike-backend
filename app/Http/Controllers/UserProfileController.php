@@ -30,13 +30,13 @@ class UserProfileController extends Controller
 
         $user = auth()->user();
 
-        $user->profile->update([
-            "profile_pic"=>$request->get('profile_pic'),
-            "bio"=>$request->get('bio'),
-            "gender"=>$request->get('gender'),
-        ]);
-
         $profile = $user->profile;
+
+        $profile->profile_pic = $request->get('profile_pic');
+        $profile->bio = $request->get('bio');
+        $profile->gender = $request->get('gender');
+
+        $profile->save();
 
         return response()->json(compact('profile'));
     }

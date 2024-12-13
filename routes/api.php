@@ -5,17 +5,15 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Middleware\JwtMiddleware;
 
-Route::prefix('auth')->group(function ($router) {
-    Route::post('register', [AuthController::class, 'register']);
-    Route::post('login', [AuthController::class, 'login']);
 
-    Route::middleware([JwtMiddleware::class])->group(function () {
-        // Auth
+
+Route::middleware(JwtMiddleware::class)->group(function ($router) {
+    Route::prefix('auth')->group(function ($router) {
+        Route::post('register', [AuthController::class, 'register'])->withoutMiddleware([JwtMiddleware::class]);;
+        Route::post('login', [AuthController::class, 'login'])->withoutMiddleware([JwtMiddleware::class]);;
         Route::post('logout', [AuthController::class, 'logout']);
     });
-});
 
-Route::group([JwtMiddleware::class], function ($router) {
     Route::get('hello', function () { return 'Hello World !!'; });
 
     // User
